@@ -16,7 +16,7 @@ spec:
       destination:
         namespace: argocd
         server: "{{`{{ server }}`}}"
-      project: devops-core-apps-{{`{{ metadata.labels.environment }}`}}
+      project: core-{{`{{ metadata.labels.environment }}`}}
       sources:
         - chart: argo-cd
           helm:
@@ -26,6 +26,6 @@ spec:
               - $values/values/argocd/values.{{`{{ metadata.labels.environment }}`}}.yaml
           repoURL: https://argoproj.github.io/argo-helm
           targetRevision: 8.0.0
-        - repoURL: { { .Values.spec.repoUrl } }
+        - repoURL: {{ .Values.spec.repoUrl }}
           targetRevision: HEAD
           ref: values
