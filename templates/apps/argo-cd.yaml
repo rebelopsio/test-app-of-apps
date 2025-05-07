@@ -22,8 +22,8 @@ spec:
           helm:
             releaseName: argo-cd
             valueFiles:
-              - $values/values/argocd/values.yaml
-              - $values/values/argocd/values.{{`{{ metadata.labels.environment }}`}}.yaml
+              - $values/values/argo-cd/values.yaml
+              - $values/values/argo-cd/values.{{`{{ metadata.labels.environment }}`}}.yaml
           repoURL: https://argoproj.github.io/argo-helm
           targetRevision: 8.0.0
         - repoURL: {{ .Values.spec.repoUrl }}
