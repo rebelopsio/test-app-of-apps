@@ -1,4 +1,4 @@
 spec:
-  reopUrl: https://github.com/rebelopsio/test-app-of-apps.git
+  repoUrl: https://github.com/rebelopsio/test-app-of-apps.git
   destination:
     local: https://kubernetes.default.svc
