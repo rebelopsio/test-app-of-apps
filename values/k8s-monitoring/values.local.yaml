@@ -294,6 +294,24 @@ prometheusOperatorObjects:
       - flux-system
 alloyMetrics:
   alloy:
+    securityContext:
+      capabilities:
+        add:
+          [
+            "CHOWN",
+            "DAC_OVERRIDE",
+            "FOWNER",
+            "FSETID",
+            "KILL",
+            "SETGID",
+            "SETUID",
+            "SETPCAP",
+            "NET_BIND_SERVICE",
+            "SYS_CHROOT",
+            "MKNOD",
+            "AUDIT_WRITE",
+            "SETFCAP",
+          ]
     extraEnv:
       - name: CLICKHOUSE_USERNAME
         valueFrom:
@@ -357,6 +375,26 @@ alloyMetrics:
       forward_to = [prometheus.remote_write.grafana_cloud_metrics.receiver]
     }
 alloy-singleton:
+  alloy:
+    securityContext:
+      capabilities:
+        add:
+          [
+            "CHOWN",
+            "DAC_OVERRIDE",
+            "FOWNER",
+            "FSETID",
+            "KILL",
+            "SETGID",
+            "SETUID",
+            "SETPCAP",
+            "NET_BIND_SERVICE",
+            "SYS_CHROOT",
+            "MKNOD",
+            "AUDIT_WRITE",
+            "SETFCAP",
+          ]
+alloy-logs:
   alloy:
     securityContext:
       capabilities:
