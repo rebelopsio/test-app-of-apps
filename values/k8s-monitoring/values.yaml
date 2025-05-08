@@ -38,7 +38,7 @@ clusterMetrics:
     metricsSource: grafana-cloud-metrics
     opencost:
       prometheus:
-        existingSecretName: grafana-secret
+        existingSecretName: grafana-cloud-metrics-k8s-monitoring
         external:
           url: https://prometheus-prod-56-prod-us-east-2.grafana.net/api/prom/push
   kepler:
