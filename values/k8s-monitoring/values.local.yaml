@@ -356,3 +356,23 @@ alloyMetrics:
       job_name = "integrations/blackbox-exporter"
       forward_to = [prometheus.remote_write.grafana_cloud_metrics.receiver]
     }
+alloy-singleton:
+  alloy:
+    securityContext:
+      capabilities:
+        add:
+          [
+            "CHOWN",
+            "DAC_OVERRIDE",
+            "FOWNER",
+            "FSETID",
+            "KILL",
+            "SETGID",
+            "SETUID",
+            "SETPCAP",
+            "NET_BIND_SERVICE",
+            "SYS_CHROOT",
+            "MKNOD",
+            "AUDIT_WRITE",
+            "SETFCAP",
+          ]
