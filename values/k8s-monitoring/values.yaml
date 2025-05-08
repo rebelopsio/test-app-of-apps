@@ -47,6 +47,7 @@ clusterMetrics:
     enabled: true
   windows-exporter:
     enabled: false
+    deployed: false
   node-exporter:
     enabled: true
 clusterEvents:
