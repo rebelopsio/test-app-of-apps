@@ -1,0 +1,11 @@
+installCRDs: true
+ingressShim:
+  defaultIssuerName: letsencrypt-prod
+  defaultIssuerKind: ClusterIssuer
+  defaultIssuerGroup: cert-manager.io
+config:
+  apiVersion: controller.config.cert-manager.io/v1alpha1
+  kind: ControllerConfiguration
+  acmeHTTP01Config:
+    solverNameservers:
+      - 1.1.1.1:53

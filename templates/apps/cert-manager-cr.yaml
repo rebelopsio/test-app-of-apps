@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cert-manager-cr
+  namespace: argo
+spec:
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            automated: "true"
+  template:
+    metadata:
+      name: cert-manager-cr-{{`{{ metadata.labels.environment }}`}}
+    spec:
+      destination:
+        namespace: cert-manager
+        server: "{{`{{ server }}`}}"
+      project: core-{{`{{ metadata.labels.environment }}`}}
+      sources:
+        - repoURL: { { .Values.spec.repoUrl } }
+          path: custom-resources/cert-manager
+          targetRevision: HEAD

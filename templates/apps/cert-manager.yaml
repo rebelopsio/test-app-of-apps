@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cert-manager
+  namespace: argo
+spec:
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            automated: "true"
+  template:
+    metadata:
+      name: cert-manager-{{`{{ metadata.labels.environment }}`}}
+    spec:
+      destination:
+        namespace: cert-manager
+        server: "{{`{{ server }}`}}"
+      project: core-{{`{{ metadata.labels.environment }}`}}
+      sources:
+        - chart: cert-manager
+          helm:
+            releaseName: cert-manager
+            valueFiles:
+              - $values/values/cert-manager/values.yaml
+              # - $values/values/cert-manager/values.{{`{{ metadata.labels.environment }}`}}.yaml
+          repoURL: https://charts.jetstack.io
+          targetRevision: 1.14.4
+        - repoURL: { { .Values.spec.repoUrl } }
+          targetRevision: HEAD
+          ref: values
