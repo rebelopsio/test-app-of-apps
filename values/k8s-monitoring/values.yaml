@@ -1,0 +1,79 @@
+cluster:
+  name: ${CLUSTER_NAME}
+destinations:
+  - name: grafana-cloud-metrics
+    type: prometheus
+    url: https://prometheus-prod-56-prod-us-east-2.grafana.net/api/prom/push
+    auth:
+      type: basic
+      username:
+        valueFrom:
+          secretKeyRef:
+            name: grafana-secret
+            key: prom_username
+      password:
+        valueFrom:
+          secretKeyRef:
+            name: grafana-secret
+            key: prom_username
+  - name: grafana-cloud-logs
+    type: loki
+    url: https://logs-prod-036.grafana.net/loki/api/v1/push
+    auth:
+      type: basic
+      username:
+        valueFrom:
+          secretKeyRef:
+            name: grafana-secret
+            key: loki_username
+      password:
+        valueFrom:
+          secretKeyRef:
+            name: grafana-secret
+            key: loki_password
+clusterMetrics:
+  enabled: true
+  opencost:
+    enabled: true
+    metricsSource: grafana-cloud-metrics
+    opencost:
+      prometheus:
+        existingSecretName: grafana-secret
+        external:
+          url: https://prometheus-prod-56-prod-us-east-2.grafana.net/api/prom/push
+  kepler:
+    enabled: false
+  kube-state-metrics:
+    enabled: true
+  windows-exporter:
+    enabled: false
+  node-exporter:
+    enabled: true
+clusterEvents:
+  enabled: true
+nodeLogs:
+  enabled: true
+podLogs:
+  enabled: true
+integrations:
+  alloy:
+    instances:
+      - name: alloy
+        labelSelectors:
+          app.kubernetes.io/name:
+            - alloy-metrics
+            - alloy-singleton
+            - alloy-logs
+alloy-metrics:
+  enabled: true
+  alloy:
+    listenAddr: 0.0.0.0
+    listenPort: 12345
+    listenScheme: HTTP
+    uiPathPrefix: /
+alloy-singleton:
+  enabled: true
+alloy-logs:
+  enabled: true
+prometheusOperatorObjects:
+  enabled: true

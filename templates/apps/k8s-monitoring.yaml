@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: k8s-monitoring
+  namespace: arge
+spec:
+  generators:
+    - clusters:
+        selector:
+          matchLabels:
+            automated: "true"
+  template:
+    metadata:
+      name: k8s-monitoring-{{`{{ metadata.labels.environment }}`}}
+    spec:
+      destination:
+        namespace: monitoring
+        server: "{{`{{ server }}`}}"
+      project: core-{{`{{ metadata.labels.environment }}`}}
+      sources:
+        - chart: k8s-monitoring
+          helm:
+            releaseName: k8s-monitoring
+            valueFiles:
+              - $values/values/k8s-monitoring/values.yaml
+              - $values/values/k8s-monitoring/values.{{`{{ metadata.labels.environment }}`}}.yaml
+          repoURL: https://grafana.github.io/helm-charts
+          targetRevision: 2.0.27
+        - repoURL: {{ .Values.spec.repoUrl }}
+          targetRevision: HEAD
+          ref: values
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+        - CreateNamespace=true
