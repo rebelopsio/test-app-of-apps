@@ -26,6 +26,6 @@ spec:
               # - $values/values/cert-manager/values.{{`{{ metadata.labels.environment }}`}}.yaml
           repoURL: https://charts.jetstack.io
           targetRevision: 1.14.4
-        - repoURL: { { .Values.spec.repoUrl } }
+        - repoURL: {{ .Values.spec.repoUrl }}
           targetRevision: HEAD
           ref: values

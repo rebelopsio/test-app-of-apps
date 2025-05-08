@@ -18,6 +18,6 @@ spec:
         server: "{{`{{ server }}`}}"
       project: core-{{`{{ metadata.labels.environment }}`}}
       sources:
-        - repoURL: { { .Values.spec.repoUrl } }
+        - repoURL: {{ .Values.spec.repoUrl }}
           path: custom-resources/cert-manager
           targetRevision: HEAD
