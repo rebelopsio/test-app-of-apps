@@ -395,22 +395,42 @@ alloy-singleton:
             "SETFCAP",
           ]
 alloy-logs:
+  extraConfig: |
+    loki.source.file "pods" {
+      targets = [
+        {__path__ = "/var/log/pods/*/*.log"},
+      ]
+      forward_to = [${LOGS_RECEIVER}]
+    }
+
+    loki.source.file "containers" {
+      targets = [
+        {__path__ = "/var/log/containers/*.log"},
+      ]
+      forward_to = [${LOGS_RECEIVER}]
+    }
+
   alloy:
-    securityContext:
-      capabilities:
-        add:
-          [
-            "CHOWN",
-            "DAC_OVERRIDE",
-            "FOWNER",
-            "FSETID",
-            "KILL",
-            "SETGID",
-            "SETUID",
-            "SETPCAP",
-            "NET_BIND_SERVICE",
-            "SYS_CHROOT",
-            "MKNOD",
-            "AUDIT_WRITE",
-            "SETFCAP",
-          ]
+    mounts:
+      varlog: false
+      dockercontainers: false
+
+  controller:
+    type: daemonset
+
+    volumeClaimTemplates:
+      - metadata:
+          name: logs-storage
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 10Gi
+
+    extraVolumeMounts:
+      - name: logs-storage
+        mountPath: /var/log/pods
+      - name: logs-storage
+        mountPath: /var/log/containers
+        subPath: containers
