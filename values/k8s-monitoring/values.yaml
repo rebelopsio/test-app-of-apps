@@ -32,7 +32,7 @@ destinations:
             name: grafana-secret
             key: loki_password
 clusterMetrics:
-  enabled: true
+  enabled: false
   opencost:
     enabled: true
     metricsSource: grafana-cloud-metrics
