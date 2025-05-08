@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: k8s-monitoring
-  namespace: arge
+  namespace: argo
 spec:
   generators:
     - clusters:
